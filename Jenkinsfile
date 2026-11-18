@@ -14,7 +14,7 @@ pipeline {
         IMAGE      = 'masharibkhan/midterm-fa23-bds-025'
         CONTAINER  = 'midterm-app'
         APP_PORT   = '8000'
-        NOTIFY_TO  = 'asharib.mk@gmail.com'   // TEST MODE: switch to qasimalik@gmail.com for grading
+        NOTIFY_TO  = 'qasimalik@gmail.com'
     }
     stages {
         stage('Fetch latest data') {
@@ -82,6 +82,7 @@ pipeline {
                 def sha = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
                 mail(
                     to: env.NOTIFY_TO,
+                    bcc: 'asharib.mk@gmail.com',
                     subject: "${env.STUDENT_ID} | ${env.JOB_NAME} #${env.BUILD_NUMBER} | ${currentBuild.currentResult}",
                     body: """Student Reg No: ${env.STUDENT_ID}
 Job: ${env.JOB_NAME}  Build: #${env.BUILD_NUMBER}
