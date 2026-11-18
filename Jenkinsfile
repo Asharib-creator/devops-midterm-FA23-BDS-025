@@ -14,7 +14,7 @@ pipeline {
         IMAGE      = 'masharibkhan/midterm-fa23-bds-025'
         CONTAINER  = 'midterm-app'
         APP_PORT   = '8000'
-        NOTIFY_TO  = 'qasimalik@gmail.com'
+        NOTIFY_TO  = 'asharib.mk@gmail.com'   // TEST MODE: switch to qasimalik@gmail.com for grading
     }
     stages {
         stage('Fetch latest data') {
