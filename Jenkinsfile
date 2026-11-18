@@ -73,6 +73,23 @@ pipeline {
                 '''
             }
         }
+        stage('Push to Docker Hub') {
+            steps {
+                // never blocks deploy or email: a push failure only marks this stage UNSTABLE
+                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+                    timeout(time: 4, unit: 'MINUTES') {
+                        withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DH_USER', passwordVariable: 'DH_PASS')]) {
+                            sh '''
+                                echo "$DH_PASS" | docker login -u "$DH_USER" --password-stdin
+                                docker push $IMAGE:$BUILD_NUMBER
+                                docker push $IMAGE:latest
+                                docker logout
+                            '''
+                        }
+                    }
+                }
+            }
+        }
     }
     post {
         always {
